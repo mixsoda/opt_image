@@ -6,6 +6,8 @@ This software is a batch file that works as a front end for the JPEG optimizatio
 ## Demo
 In this example, three image files (approximately 1 MB in total) are processed to reduce the file size to 185 KB (1/5 or less of the original file).
 
+![sample_images](https://github.com/mixsoda/opt_image/blob/master/opt_img_demo.gif?raw=true "demo")
+
 ## Install
 ### Preparation
 First of all, download mozjpeg, pngquant, zopflipng binary files from the following site.
