@@ -28,7 +28,7 @@ exit /b
 REM *** SUBROUTINE ***
 
 :OPTIMIZE_PNG
-pngquant.exe --force --verbose --floyd=1 --speed=1 --output quantized_%1 --quality=65-75 %1
+pngquant.exe --force --verbose --floyd=1 --speed=1 --output quantized_%1 --quality=60-70 %1
 zopflipng.exe --lossy_transparent --lossy_8bit --iterations=20 --filters=0me quantized_%1 optimized_%1
 del /F quantized_%1
 exit /b
