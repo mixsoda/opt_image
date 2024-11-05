@@ -20,6 +20,13 @@ if %%~xq == .jpg (
 if %%~xq == .JPG (
 	call :OPTIMIZE_JPG "%%~nxq"
 )
+REM *** HEIC FILE ***
+if %%~xq == .heic (
+	call :OPTIMIZE_HEIC "%%~nxq"
+)
+if %%~xq == .HEIC (
+	call :OPTIMIZE_HEIC "%%~nxq"
+)
 echo.
 )
 PAUSE
@@ -33,15 +40,21 @@ zopflipng.exe --lossy_transparent --lossy_8bit --iterations=20 --filters=0me qua
 del /F quantized_%1
 exit /b
 
+:OPTIMIZE_HEIC
+magick %1 %~n1.jpg
+call :OPTIMIZE_JPG "%%~n1.jpg"
+del /F %~n1.jpg
+exit /b
+
 :OPTIMIZE_JPG
 setlocal
 set ORIENTATION=0
-for /f "usebackq tokens=*" %%i in (`identify -format "%%[EXIF:Orientation]" %1`) do set ORIENTATION=%%i
+for /f "usebackq tokens=*" %%i in (`magick identify -format "%%[EXIF:Orientation]" %1`) do set ORIENTATION=%%i
 if %ORIENTATION% == 6 (
-	convert -strip %1 tmp_%1
-	convert tmp_%1 -rotate +90 strip_%1
+	magick %1 -strip tmp_%1
+	magick tmp_%1 -rotate +90 strip_%1
 ) else (
-	convert -strip %1 strip_%1
+	magick %1 -strip strip_%1
 )
 endlocal
 cjpeg-static.exe -quality 70 -outfile optimized_%1 strip_%1
